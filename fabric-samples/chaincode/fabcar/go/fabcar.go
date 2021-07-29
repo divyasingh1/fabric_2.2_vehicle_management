@@ -7,8 +7,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
-
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
@@ -34,18 +32,18 @@ type QueryResult struct {
 
 // InitLedger adds a base set of cars to the ledger
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
-	cars := []Car{
-		Car{Make: "Toyota", Model: "Prius", Colour: "blue", Owner: "Tomoko", Date: "2021-07-29T19:20:41.053Z"},
-	}
-
-	for i, car := range cars {
-		carAsBytes, _ := json.Marshal(car)
-		err := ctx.GetStub().PutState("CAR"+strconv.Itoa(i), carAsBytes)
-
-		if err != nil {
-			return fmt.Errorf("Failed to put to world state. %s", err.Error())
-		}
-	}
+//	cars := []Car{
+//		Car{Make: "Toyota", Model: "Prius", Colour: "blue", Owner: "Tomoko", Date: "2021-07-29T19:20:41.053Z"},
+//	}
+//
+//	for i, car := range cars {
+//		carAsBytes, _ := json.Marshal(car)
+//		err := ctx.GetStub().PutState("CAR"+strconv.Itoa(i), carAsBytes)
+//
+//		if err != nil {
+//			return fmt.Errorf("Failed to put to world state. %s", err.Error())
+//		}
+//	}
 
 	return nil
 }
