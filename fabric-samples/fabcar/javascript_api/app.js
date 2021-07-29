@@ -20,6 +20,10 @@ app.post('/changeOwner', function(req, res){
    route.invoke(req,res);
 });
 
+app.get('/getHistory/:arg2',function(req,res){
+   route.getHistory(req,res);
+})
+
 /* GET request to query all cars information */
 app.get('/query/queryAllVehicles',function(req,res){
    route.queryAllCars(req,res);

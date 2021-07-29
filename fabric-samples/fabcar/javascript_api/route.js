@@ -16,6 +16,11 @@ exports.queryAllCars = function (request,reply) {
 	query.querySDK(fnName, request, reply);
 }
 
+exports.getHistory = function (request,reply) {
+        var fnName = "retrieveHistory";
+        query.querySDK(fnName, request, reply);
+}
+
 exports.queryCar = function (request,reply) {
     var fnName = "queryCar";
     query.querySDK(fnName, request, reply);

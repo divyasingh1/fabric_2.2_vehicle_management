@@ -50,7 +50,10 @@ async function main(fnName,request,reply) {
         }
         else if(fnName == "queryAllCars") {
             result = await contract.evaluateTransaction(fnName);
-        }
+        }else if(fnName == 'retrieveHistory') {
+	    let arg2 = request.params.arg2;
+	    result = await contract.evaluateTransaction(fnName, arg2);
+	}
         
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
 
