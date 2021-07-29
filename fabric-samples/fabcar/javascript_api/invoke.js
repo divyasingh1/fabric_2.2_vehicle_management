@@ -51,6 +51,12 @@ async function main(header, arraycarvalues, auth, reply) {
             console.log("In invoke js : createCar function");
             await contract.submitTransaction('changeCarOwner', arraycarvalues[0], arraycarvalues[1]);
         }
+
+	if (header == 'scrapVehicle'){
+                let arg2 = arraycarvalues[0];
+                await contract.submitTransaction('scrapVehicle', arg2);
+        }
+
         console.log('Transaction has been submitted');
 
         // Disconnect from the gateway.

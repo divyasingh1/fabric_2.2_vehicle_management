@@ -160,6 +160,15 @@ class FabCar extends Contract {
 		return result;
 	}
 
+
+	async scrapVehicle(ctx, key){
+		console.info('=============START: Delete vehiclle===================', key);
+		if (!key) {
+			throw new Error('Incorrect number of arguments. Expecting name of the vehicle to be delete');
+		}
+		await ctx.stub.deleteState(key);
+		return "SUCCESS"
+	}
 }
 
 module.exports = FabCar;

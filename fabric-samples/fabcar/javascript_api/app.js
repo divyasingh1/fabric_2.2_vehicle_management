@@ -24,6 +24,11 @@ app.get('/getHistory/:arg2',function(req,res){
    route.getHistory(req,res);
 })
 
+app.delete('/scrapVehicle',function(req,res){
+   req.body.header = 'scrapVehicle';
+   route.scrapVehicle(req,res);
+})
+
 /* GET request to query all cars information */
 app.get('/query/queryAllVehicles',function(req,res){
    route.queryAllCars(req,res);
