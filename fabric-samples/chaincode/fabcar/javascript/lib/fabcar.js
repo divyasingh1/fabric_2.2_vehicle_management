@@ -143,6 +143,19 @@ class FabCar extends Contract {
         console.info('============= END : changeCarOwner ===========');
     }
 
+        async modifyVehicle (ctx,  carNumber, color){
+		console.info('============= START : modifyVehicle ===========');
+		const carAsBytes = await ctx.stub.getState(carNumber); // get the car from chaincode state
+		if (!carAsBytes || carAsBytes.length === 0) {
+			throw new Error(`${carNumber} does not exist`);
+                }
+		const car = JSON.parse(carAsBytes.toString());
+		car.color = color;
+		await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
+                console.info('============= END : modifyVehicle ===========');
+
+	}
+
 	async retrieveHistory(ctx, key) {
 		console.info('getting history for key: ' + key);
 		let iterator = await ctx.stub.getHistoryForKey(key);

@@ -39,6 +39,11 @@ app.get('/query/queryVehicle/:arg1',function(req,res){
    route.queryCar(req,res);
 })
 
+app.patch('/modifyVehicle', function(req, res){
+   req.body.header ='modifyVehicle';
+   route.modifyVehicle(req, res);
+})
+
 
 var server = app.listen(8080, function() {
 
