@@ -12,7 +12,7 @@ class FabCar extends Contract {
 
     async initLedger(ctx) {
         console.info('============= START : Initialize Ledger ===========');
-        const cars = [
+/*        const cars = [
             {
                 color: 'blue',
                 make: 'Toyota',
@@ -79,8 +79,10 @@ class FabCar extends Contract {
             cars[i].docType = 'car';
             await ctx.stub.putState('CAR' + i, Buffer.from(JSON.stringify(cars[i])));
             console.info('Added <--> ', cars[i]);
-        }
+        }*/
+
         console.info('============= END : Initialize Ledger ===========');
+	return;
     }
 
     async queryCar(ctx, carNumber) {
@@ -92,7 +94,7 @@ class FabCar extends Contract {
         return carAsBytes.toString();
     }
 
-    async createCar(ctx, carNumber, make, model, color, owner) {
+    async createCar(ctx, carNumber, make, model, color, owner, date) {
         console.info('============= START : Create Car ===========');
 
         const car = {
@@ -101,6 +103,7 @@ class FabCar extends Contract {
             make,
             model,
             owner,
+	    date
         };
 
         await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
@@ -139,6 +142,23 @@ class FabCar extends Contract {
         await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
         console.info('============= END : changeCarOwner ===========');
     }
+
+	async retrieveHistory(ctx, key) {
+		console.info('getting history for key: ' + key);
+		let iterator = await ctx.stub.getHistoryForKey(key);
+		let result = [];
+		let res = await iterator.next();
+		while (!res.done) {
+			if (res.value) {
+				console.info(`found state update with value: ${res.value.value.toString('utf8')}`);
+				const obj = JSON.parse(res.value.value.toString('utf8'));
+				result.push(obj);
+			}
+			res = await iterator.next();
+		}
+		await iterator.close();
+		return result;
+	}
 
 }
 
