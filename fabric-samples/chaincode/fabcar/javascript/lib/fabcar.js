@@ -162,10 +162,21 @@ class FabCar extends Contract {
 		let result = [];
 		let res = await iterator.next();
 		while (!res.done) {
-			if (res.value) {
+			if (res.value && res.value.value.toString()) {
 				console.info(`found state update with value: ${res.value.value.toString('utf8')}`);
-				const obj = JSON.parse(res.value.value.toString('utf8'));
-				result.push(obj);
+				let jsonRes = {};
+                                jsonRes.TxId = res.value.txId;
+                                jsonRes.Timestamp = res.value.timestamp;
+                                jsonRes.IsDelete = res.value.isDelete;
+                                try {
+                                        jsonRes.Value = JSON.parse(res.value.value.toString('utf8'));
+                                } catch (err) {
+                                        console.log(err);
+                                        jsonRes.Value = res.value.value.toString('utf8');
+                                }
+
+//				const obj = JSON.parse(res.value.value.toString('utf8'));
+				result.push(jsonRes);
 			}
 			res = await iterator.next();
 		}
