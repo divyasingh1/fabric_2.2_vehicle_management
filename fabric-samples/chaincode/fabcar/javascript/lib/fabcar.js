@@ -31,6 +31,7 @@ class FabCar extends Contract {
         const car = {
             color,
             docType: 'vehicle',
+	    isSold: false,
             manufacture,
             model,
             owner,
@@ -62,7 +63,7 @@ class FabCar extends Contract {
         return JSON.stringify(allResults);
     }
 
-    async changeCarOwner(ctx, carNumber, newOwner) {
+    async changeCarOwner(ctx, carNumber, newOwner, sold_price, sold_date) {
         console.info('============= START : changeCarOwner ===========');
 
         const carAsBytes = await ctx.stub.getState(carNumber); // get the car from chaincode state
@@ -71,10 +72,42 @@ class FabCar extends Contract {
         }
         const car = JSON.parse(carAsBytes.toString());
         car.owner = newOwner;
+	car.sold_price = sold_price;
+	car.sold_date = sold_date
 
         await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
         console.info('============= END : changeCarOwner ===========');
     }
+
+	async sellCar(ctx, carNumber, newOwner, registration_no, sold_price, insurance_id, sold_date){
+		console.info('============= START : sell car ===========');
+		const carAsBytes = await ctx.stub.getState(carNumber);
+		if (!carAsBytes || carAsBytes.length === 0) {
+			throw new Error(`${carNumber} does not exist`);
+		}
+		const car = JSON.parse(carAsBytes.toString());
+		car.owner = newOwner;
+		car.registration_no = registration_no;
+		car.sold_price = sold_price,
+		car.insurance_id = insurance_id,
+		car.isSold = true,
+		car.sold_date = sold_date,
+		await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
+		console.info('============= END : sell car ===========');
+	}
+
+	async serviceVehicle(ctx, carNumber, service_id, service_date){
+                console.info('============= START : service vehicle ===========');
+                const carAsBytes = await ctx.stub.getState(carNumber);
+                if (!carAsBytes || carAsBytes.length === 0) {
+                        throw new Error(`${carNumber} does not exist`);
+                }
+                const car = JSON.parse(carAsBytes.toString());
+                car.service_id = service_id;
+                car.service_date = service_date;
+                await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
+                console.info('============= END : service vehicle ===========');
+        }
 
         async modifyVehicle (ctx,  carNumber, color){
 		console.info('============= START : modifyVehicle ===========');

@@ -44,6 +44,15 @@ app.patch('/modifyVehicle', function(req, res){
    route.modifyVehicle(req, res);
 })
 
+app.post('/sellCarFirstTime', function(req, res){
+   req.body.header = "sellCar";
+   route.sellCar(req,res);
+});
+
+app.post('/serviceVehicle', function(req, res){
+   req.body.header = "serviceVehicle";
+   route.serviceVehicle(req,res);
+});
 
 var server = app.listen(8080, function() {
 

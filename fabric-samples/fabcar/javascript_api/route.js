@@ -35,6 +35,20 @@ exports.modifyVehicle = function (request,reply) {
         invoke.invokeSDK(header, arraycarvalues, userCard, reply);
 }
 
+exports.sellCar = function (request,reply) {
+        var header = request.body.header;
+        var arraycarvalues = request.body.arraycarvalues;
+        var userCard = request.headers.usercard  || 'appUser';
+        invoke.invokeSDK(header, arraycarvalues, userCard, reply);
+}
+
+exports.serviceVehicle = function (request,reply) {
+        var header = request.body.header;
+        var arraycarvalues = request.body.arraycarvalues;
+        var userCard = request.headers.usercard  || 'appUser';
+        invoke.invokeSDK(header, arraycarvalues, userCard, reply);
+}
+
 
 exports.queryCar = function (request,reply) {
     var fnName = "queryCar";

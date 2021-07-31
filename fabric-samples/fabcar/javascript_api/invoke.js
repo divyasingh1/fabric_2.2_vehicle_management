@@ -49,7 +49,7 @@ async function main(header, arraycarvalues, auth, reply) {
         }
         if(header === "CNST_CHANGE_CAR_OWNER"){
             console.log("In invoke js : sell vehicle function");
-            await contract.submitTransaction('changeCarOwner', arraycarvalues[0], arraycarvalues[1]);
+            await contract.submitTransaction('changeCarOwner', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2], arraycarvalues[3]);
         }
 
 	if (header == 'scrapVehicle'){
@@ -59,6 +59,14 @@ async function main(header, arraycarvalues, auth, reply) {
 
         if (header == 'modifyVehicle'){
 		await contract.submitTransaction('modifyVehicle', arraycarvalues[0], arraycarvalues[1]);
+	}
+
+	if (header == 'sellCar'){
+		await contract.submitTransaction('sellCar', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2], arraycarvalues[3], arraycarvalues[4], arraycarvalues[5]);
+	}
+
+	if(header == 'serviceVehicle'){
+		await contract.submitTransaction('serviceVehicle', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2]);
 	}
 
         console.log('Transaction has been submitted');
