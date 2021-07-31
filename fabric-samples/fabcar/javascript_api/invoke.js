@@ -62,7 +62,9 @@ async function main(header, arraycarvalues, auth, reply) {
 	}
 
 	if (header == 'sellCar'){
+		console.log(">>>>>>>>>>");
 		await contract.submitTransaction('sellCar', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2], arraycarvalues[3], arraycarvalues[4], arraycarvalues[5]);
+		console.log(">>>>>>>>>>result");
 	}
 
 	if(header == 'serviceVehicle'){
@@ -71,6 +73,10 @@ async function main(header, arraycarvalues, auth, reply) {
 
 	if(header == 'vehicleCondition'){
 		await contract.submitTransaction('vehicleCondition', arraycarvalues[0], arraycarvalues[1]);
+	}
+
+	if(header == 'trafic_voilations'){
+		await contract.submitTransaction('trafic_voilations', arraycarvalues[0], arraycarvalues[1]);
 	}
 
         console.log('Transaction has been submitted');

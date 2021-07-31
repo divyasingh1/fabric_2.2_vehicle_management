@@ -121,6 +121,17 @@ class FabCar extends Contract {
                 console.info('============= END : add vehicle condition ===========');
         }
 
+	async trafic_voilations(ctx, carNumber, traffic_voilation_id){
+                console.info('============= START : trafic_voilations ===========');
+                const carAsBytes = await ctx.stub.getState(carNumber);
+                if (!carAsBytes || carAsBytes.length === 0) {
+                        throw new Error(`${carNumber} does not exist`);
+                }
+                const car = JSON.parse(carAsBytes.toString());
+                car.traffic_voilation_id = traffic_voilation_id;
+                await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
+                console.info('============= END : trafic_voilations ===========');
+        }
 
         async modifyVehicle (ctx,  carNumber, color){
 		console.info('============= START : modifyVehicle ===========');

@@ -59,6 +59,11 @@ app.post('/vehicleCondition', function(req, res){
    route.serviceVehicle(req,res);
 });
 
+app.post('/traficVoilations', function(req, res){
+   req.body.header = "trafic_voilations";
+   route.serviceVehicle(req,res);
+});
+
 var server = app.listen(8080, function() {
 
   console.log('Express server listening on port 8080');
