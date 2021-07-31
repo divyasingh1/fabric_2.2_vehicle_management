@@ -152,7 +152,8 @@ class FabCar extends Contract {
 		let result = [];
 		let res = await iterator.next();
 		while (!res.done) {
-			if (res.value && res.value.value.toString()) {
+			//if (res.value && res.value.value.toString()) {
+			if(true){
 				console.info(`found state update with value: ${res.value.value.toString('utf8')}`);
 				let jsonRes = {};
                                 jsonRes.TxId = res.value.txId;
