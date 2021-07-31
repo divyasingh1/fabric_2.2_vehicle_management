@@ -15,6 +15,11 @@ app.post('/createVehicle', function(req, res){
    route.invoke(req,res);
 });
 
+app.post('/registerUser', function(req, res){
+   req.body.header = "registerUser";
+   route.registerUser(req,res);
+});
+
 app.post('/changeOwner', function(req, res){
    req.body.header = "CNST_CHANGE_CAR_OWNER";
    route.invoke(req,res);

@@ -1,0 +1,95 @@
+/*
+ * Copyright IBM Corp. All Rights Reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+'use strict';
+
+const { Gateway, Wallets } = require('fabric-network');
+const fs = require('fs');
+const path = require('path');
+
+async function main(header, arraycarvalues, auth, reply) {
+	console.log(">>>>>>>>appUser", auth);
+    try {
+        // load the network configuration
+        const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org2.example.com', 'connection-org2.json');
+        let ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
+
+        // Create a new file system based wallet for managing identities.
+        const walletPath = path.join(process.cwd(), 'wallet');
+        const wallet = await Wallets.newFileSystemWallet(walletPath);
+        console.log(`Wallet path: ${walletPath}`);
+
+        // Check to see if we've already enrolled the user.
+        const identity = await wallet.get(auth);
+        if (!identity) {
+            console.log('An identity for the user "appUser" does not exist in the wallet');
+            console.log('Run the registerUser.js application before retrying');
+            throw new Error("An identity for the user appUser does not exist in the wallet. Run the registerUser.js application before retrying")
+        }
+
+        // Create a new gateway for connecting to our peer node.
+        const gateway = new Gateway();
+        await gateway.connect(ccp, { wallet, identity: auth, discovery: { enabled: true, asLocalhost: true } });
+
+        // Get the network (channel) our contract is deployed to.
+        const network = await gateway.getNetwork('mychannel');
+
+        // Get the contract from the network.
+        const contract = network.getContract('fabcar');
+
+        // Submit the specified transaction.
+        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
+        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
+        if(header === "CNST_CREATE_CAR"){
+            console.log("In invoke js : createVehicle function");
+            await contract.submitTransaction('createCar', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2], arraycarvalues[3],  arraycarvalues[4], arraycarvalues[5], arraycarvalues[6],arraycarvalues [7]);
+        }
+        if(header === "CNST_CHANGE_CAR_OWNER"){
+            console.log("In invoke js : sell vehicle function");
+            await contract.submitTransaction('changeCarOwner', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2], arraycarvalues[3]);
+        }
+
+	if (header == 'scrapVehicle'){
+                let arg2 = arraycarvalues[0];
+                await contract.submitTransaction('scrapVehicle', arg2);
+        }
+
+        if (header == 'modifyVehicle'){
+		await contract.submitTransaction('modifyVehicle', arraycarvalues[0], arraycarvalues[1]);
+	}
+
+	if (header == 'sellCar'){
+		console.log(">>>>>>>>>>");
+		await contract.submitTransaction('sellCar', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2], arraycarvalues[3], arraycarvalues[4], arraycarvalues[5]);
+		console.log(">>>>>>>>>>result");
+	}
+
+	if(header == 'serviceVehicle'){
+		await contract.submitTransaction('serviceVehicle', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2]);
+	}
+
+	if(header == 'vehicleCondition'){
+		await contract.submitTransaction('vehicleCondition', arraycarvalues[0], arraycarvalues[1]);
+	}
+
+	if(header == 'trafic_voilations'){
+		await contract.submitTransaction('trafic_voilations', arraycarvalues[0], arraycarvalues[1]);
+	}
+
+        console.log('Transaction has been submitted');
+
+        // Disconnect from the gateway.
+        await gateway.disconnect();
+        reply.send({status:"success", message:"Transaction has been submitted"});
+
+    } catch (error) {
+        console.error(`Failed to submit transaction: ${error}`);
+        reply.send({status:"Failed", Message: 'Unable to invoke ::'+ error.toString()});
+    }
+}
+exports.invokeSDK = function (header, arraycarvalues,auth, reply) {
+    main(header, arraycarvalues, auth,reply);
+}
