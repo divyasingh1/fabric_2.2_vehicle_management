@@ -69,6 +69,10 @@ async function main(header, arraycarvalues, auth, reply) {
 		await contract.submitTransaction('serviceVehicle', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2]);
 	}
 
+	if(header == 'vehicleCondition'){
+		await contract.submitTransaction('vehicleCondition', arraycarvalues[0], arraycarvalues[1]);
+	}
+
         console.log('Transaction has been submitted');
 
         // Disconnect from the gateway.

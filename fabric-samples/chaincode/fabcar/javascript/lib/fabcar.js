@@ -109,6 +109,19 @@ class FabCar extends Contract {
                 console.info('============= END : service vehicle ===========');
         }
 
+        async vehicleCondition(ctx, carNumber, certificate_fitness){
+                console.info('============= START :add vehicle condition ===========');
+                const carAsBytes = await ctx.stub.getState(carNumber);
+                if (!carAsBytes || carAsBytes.length === 0) {
+                        throw new Error(`${carNumber} does not exist`);
+                }
+                const car = JSON.parse(carAsBytes.toString());
+                car.certificate_fitness = certificate_fitness;
+                await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
+                console.info('============= END : add vehicle condition ===========');
+        }
+
+
         async modifyVehicle (ctx,  carNumber, color){
 		console.info('============= START : modifyVehicle ===========');
 		const carAsBytes = await ctx.stub.getState(carNumber); // get the car from chaincode state
