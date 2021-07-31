@@ -12,75 +12,6 @@ class FabCar extends Contract {
 
     async initLedger(ctx) {
         console.info('============= START : Initialize Ledger ===========');
-/*        const cars = [
-            {
-                color: 'blue',
-                make: 'Toyota',
-                model: 'Prius',
-                owner: 'Tomoko',
-            },
-            {
-                color: 'red',
-                make: 'Ford',
-                model: 'Mustang',
-                owner: 'Brad',
-            },
-            {
-                color: 'green',
-                make: 'Hyundai',
-                model: 'Tucson',
-                owner: 'Jin Soo',
-            },
-            {
-                color: 'yellow',
-                make: 'Volkswagen',
-                model: 'Passat',
-                owner: 'Max',
-            },
-            {
-                color: 'black',
-                make: 'Tesla',
-                model: 'S',
-                owner: 'Adriana',
-            },
-            {
-                color: 'purple',
-                make: 'Peugeot',
-                model: '205',
-                owner: 'Michel',
-            },
-            {
-                color: 'white',
-                make: 'Chery',
-                model: 'S22L',
-                owner: 'Aarav',
-            },
-            {
-                color: 'violet',
-                make: 'Fiat',
-                model: 'Punto',
-                owner: 'Pari',
-            },
-            {
-                color: 'indigo',
-                make: 'Tata',
-                model: 'Nano',
-                owner: 'Valeria',
-            },
-            {
-                color: 'brown',
-                make: 'Holden',
-                model: 'Barina',
-                owner: 'Shotaro',
-            },
-        ];
-
-        for (let i = 0; i < cars.length; i++) {
-            cars[i].docType = 'car';
-            await ctx.stub.putState('CAR' + i, Buffer.from(JSON.stringify(cars[i])));
-            console.info('Added <--> ', cars[i]);
-        }*/
-
         console.info('============= END : Initialize Ledger ===========');
 	return;
     }
@@ -94,20 +25,22 @@ class FabCar extends Contract {
         return carAsBytes.toString();
     }
 
-    async createCar(ctx, carNumber, make, model, color, owner, date) {
-        console.info('============= START : Create Car ===========');
+    async createCar(ctx, vehicle_id, manufacture, model, color, owner, manufacture_date, engine_no, chassis_no) {
+        console.info('============= START : Create Vehicle ===========');
 
         const car = {
             color,
-            docType: 'car',
-            make,
+            docType: 'vehicle',
+            manufacture,
             model,
             owner,
-	    date
+	    manufacture_date,
+	    engine_no,
+	    chassis_no
         };
 
-        await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
-        console.info('============= END : Create Car ===========');
+        await ctx.stub.putState(vehicle_id, Buffer.from(JSON.stringify(car)));
+        console.info('============= END : Create Vehicle ===========');
     }
 
     async queryAllCars(ctx) {
