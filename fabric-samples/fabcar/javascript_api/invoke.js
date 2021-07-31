@@ -44,11 +44,11 @@ async function main(header, arraycarvalues, auth, reply) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
         if(header === "CNST_CREATE_CAR"){
-            console.log("In invoke js : createCar function");
-            await contract.submitTransaction('createCar', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2], arraycarvalues[3],  arraycarvalues[4], arraycarvalues[5]);
+            console.log("In invoke js : createVehicle function");
+            await contract.submitTransaction('createCar', arraycarvalues[0], arraycarvalues[1], arraycarvalues[2], arraycarvalues[3],  arraycarvalues[4], arraycarvalues[5], arraycarvalues[6],arraycarvalues [7]);
         }
         if(header === "CNST_CHANGE_CAR_OWNER"){
-            console.log("In invoke js : createCar function");
+            console.log("In invoke js : sell vehicle function");
             await contract.submitTransaction('changeCarOwner', arraycarvalues[0], arraycarvalues[1]);
         }
 
