@@ -57,7 +57,7 @@ async function main(header, arraycarvalues, auth, reply) {
                 await contract.submitTransaction('scrapVehicle', arg2);
         }
 
-        if (header = 'modifyVehicle'){
+        if (header == 'modifyVehicle'){
 		await contract.submitTransaction('modifyVehicle', arraycarvalues[0], arraycarvalues[1]);
 	}
 
